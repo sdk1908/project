@@ -950,7 +950,7 @@ int count=0;
     }
 
     public static void calculateStockPrice() {
-        int prices[]= {7,1,5,3,6,4};
+        int prices[]= {7,1,5,3,6,7};
 
         int min = prices[0];
         int temp=0;
