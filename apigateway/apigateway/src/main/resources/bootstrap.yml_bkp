@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: apigateway
+  cloud:
+    config:
+      uri: http://localhost:8888
+      name: apigateway
+      #profile: dev
+      lable: main # Branch from which to fetch config (main/master)
+

@@ -15,8 +15,21 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-        int a[]= { 1,4,2,8,7 };
+        /*-----immutable test
 
+        Abc add = (a,b)->(a+b);
+		add.sum(10,20);
+
+		List<String> listStr=new ArrayList<>();
+		listStr.add("Immmuatable");
+		ImmuatableClass im = new ImmuatableClass(1,"sandeep",listStr);
+		System.out.println("immm ::"+im.getArrList());
+		listStr.add("mutable");
+		System.out.println("immm test ::"+im.getArrList());
+
+         */
+
+        int a[]= { 1,4,2,8,7 };
 
         int arr[] = { 7, 10, 11, 5, 2, 5, 5, 7, 11, 8, 9 };
 
@@ -129,14 +142,17 @@ public class App {
        // sortSecondMapOnValuesFromFirstMapKey();
         //findLongestNonRepetiveChar();
         //binSearchResult();
-       //// postNegPairFind();
+      //  postNegPairFind();
        // mapUsingThirdHighMarks();
        // findPairCount();
        // findSmallestPositive();
        // ArraySplitIntoChunk();
-       // calculateStockPrice();
+        calculateStockPrice();
      // findNextGreaterElements();
-        anagramsListGroup();
+       // anagramsListGroup();
+       // testHashMapWithoutEquals();
+
+     //   findFarthestElementGreaterThanZeroMinuesorPlusAnything();
     }
 
     private static void functionInterfaceToGetSecondLastDigitFromString() {
@@ -384,7 +400,8 @@ public class App {
     private static void getSecondHighestFromList() {
         List<Integer> l1 = Arrays.asList(3, 6, 7, 1, 4, 9, 3, 6, null, 7, 1);
 
-        System.out.println(l1.stream().filter(s -> s != null).sorted((s1, s2) -> -s1.compareTo(s2)).collect(Collectors.toList()).get(1));
+        System.out.println(l1.stream().filter(s -> s != null).sorted((s1, s2) -> -s1.compareTo(s2))
+                .collect(Collectors.toList()).get(1));
         List<Integer> l2 = Arrays.asList(3, 6, 7, 1, 4, 9, 3, 6, 7, 1);
         System.out.println("---------------");
         l2.stream().sorted((s1,s2)->-s1.compareTo(s2)).collect(Collectors.toList()).stream().limit(3).forEach(System.out::println);
@@ -878,17 +895,18 @@ int count=0;
 
          List<Integer> posList = Arrays.stream(a).boxed().filter(s->s>0).collect(Collectors.toList());
         List<Integer> negList = Arrays.stream(a).boxed().filter(s->s<0).collect(Collectors.toList());
-        LinkedHashMap<Integer,List<Integer>> map = new LinkedHashMap();
+
+        List<List<Integer>> listResult = new ArrayList<>();
         if(posList.size()==negList.size()){
 
             for(int i=0;i<posList.size();i++){
                 List<Integer> listo = new LinkedList<>();
                 listo.add(posList.get(i));
                 listo.add(negList.get(i));
-                map.put(i,listo);
+                listResult.add(listo);
             }
         }
-        map.values().stream().flatMap(s->s.stream()).forEach((k)->System.out.print(" "+k+","));
+        listResult.stream().flatMap(s->s.stream()).forEach((k)->System.out.print(" "+k+","));
     }
 
     public static void mapUsingThirdHighMarks(){
@@ -950,24 +968,19 @@ int count=0;
     }
 
     public static void calculateStockPrice() {
-        int prices[]= {7,1,5,3,6,7};
+        int prices[]= {7,1,5,3,6,2};
 
         int min = prices[0];
         int temp=0;
-        int max=prices[0];
+        int maxProfit=0;
         //int max=0;
-        for(int i=0;i<prices.length;i++)
+        for(int i=1;i<prices.length;i++)
         {
-            if(prices[i]<min) {
-                min = prices[i];
-            }
-
-            if(prices[i]>max) {
-                max = prices[i];
-            }
-
+            int currentProfit = prices[i] - min;
+            maxProfit = Math.max(maxProfit,currentProfit);
+            min = Math.min(min,prices[i]);
         }
-        System.out.println("Stock prices profit:"+(max-min));
+        System.out.println("Stock prices profit:"+maxProfit);
 
     }
 
@@ -998,7 +1011,85 @@ int count=0;
 
         System.out.println(listRes);
     }
+
+    public static void testHashMapWithoutEquals(){
+        HashMap<Employee,Integer> hmap = new HashMap<>();
+        hmap.put(new Employee(1,"Sandeep",20000,new Department("IT"),new Designation("java"),"dombivli"), 100);
+        hmap.put(new Employee(1,"Sandeep",20000,new Department("IT"),new Designation("java"),"dombivli"),200);
+//-918026777
+        System.out.println(hmap.size()+"::"+
+        hmap.get(new Employee(1,"Sandeep",20000,new Department("IT"),new Designation("java"),"dombivli")));
+        //System.out.println(new Employee(1,"Sandeep",20000,new Department("IT"),new Designation("java"),"dombivli").hashCode());
+    }
+
+    public static void findFarthestElementGreaterThanZeroMinuesorPlusAnything(){
+
+        int[] arr = {9,-1,2,-3,4,6,-7,-4};
+
+        int maxDistance=0;
+        int result=0;
+
+        for(int i=0;i<arr.length;i++)
+        {
+            int num = Math.abs(arr[i]);
+
+            if(num > maxDistance ) {
+                maxDistance=num;
+                result = arr[i];
+            }
+        }
+
+        System.out.println(result);
+    }
+
 }
+
+final class ImmuatableClass{
+    private final int id;
+    private final String name;
+    private final ArrayList<String> arrList;
+
+    public ImmuatableClass(int id, String name, List<String> listStr) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.arrList = new ArrayList<>(listStr);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+
+    }
+    public java.util.List<String> getArrList() {
+        return Collections.unmodifiableList(arrList);
+    }
+}
+
+class Singlton{
+
+    private static Singlton singlton;
+
+    private Singlton() {}
+
+    public static synchronized Singlton getInstance() {
+
+        if(singlton == null ) {
+            singlton = new Singlton();
+        }
+        return singlton;
+    }
+}
+
+@FunctionalInterface
+interface Abc{
+    int sum(int a,int b);
+}
+
+
 
 
 

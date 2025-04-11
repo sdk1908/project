@@ -1,0 +1,10 @@
+app:
+  id: order-service
+spring:
+  application:
+    name: order-service
+  cloud:
+    config:
+      uri: http://localhost:8888 # the address of the config server
+      name: order-service
+      label: main # Branch from which to fetch config (main/master)

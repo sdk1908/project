@@ -10,12 +10,12 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
+//@ToString(callSuper = true)
 public class Employee {
     private int id;
     private String name;
 
-    @Override
+   /* @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -26,7 +26,7 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
+    } */
 
     private long salary;
     private Department department;
